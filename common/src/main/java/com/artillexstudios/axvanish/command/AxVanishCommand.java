@@ -85,7 +85,7 @@ public final class AxVanishCommand {
                                     if (other.canSee(user) && other.onlinePlayer().hasPermission("axvanish.notify")) {
                                         MessageUtils.sendMessage(other.onlinePlayer(), Language.prefix, Language.unVanish.broadcast, Placeholder.unparsed("player", player.getName()));
                                     } else if (!other.canSee(user) && Config.fakeJoin.enabled) {
-                                        MessageUtils.sendMessage(other.onlinePlayer(), Config.fakeJoin.message, Placeholder.unparsed("player", player.getName()));
+                                        MessageUtils.sendMessage(other.onlinePlayer(), Language.unVanish.fakeJoin, Placeholder.unparsed("player", player.getName()));
                                     }
                                 });
                     } else {
@@ -97,7 +97,7 @@ public final class AxVanishCommand {
                                     if (other.canSee(user) && other.onlinePlayer().hasPermission("axvanish.notify")) {
                                         MessageUtils.sendMessage(other.onlinePlayer(), Language.prefix, Language.vanish.broadcast, Placeholder.unparsed("player", player.getName()));
                                     } else if (!other.canSee(user) && Config.fakeLeave.enabled) {
-                                        MessageUtils.sendMessage(other.onlinePlayer(), Config.fakeLeave.message, Placeholder.unparsed("player", player.getName()));
+                                        MessageUtils.sendMessage(other.onlinePlayer(), Language.vanish.fakeLeave, Placeholder.unparsed("player", player.getName()));
                                     }
                                 });
                     }
@@ -148,7 +148,7 @@ public final class AxVanishCommand {
                                         if (other.canSee(user) && other.onlinePlayer().hasPermission("axvanish.notify")) {
                                             MessageUtils.sendMessage(other.onlinePlayer(), Language.prefix, Language.unVanish.broadcast, Placeholder.unparsed("player", finalTargetName));
                                         } else if (!other.canSee(user) && Config.fakeJoin.enabled) {
-                                            MessageUtils.sendMessage(other.onlinePlayer(), Config.fakeJoin.message, Placeholder.unparsed("player", finalTargetName));
+                                            MessageUtils.sendMessage(other.onlinePlayer(), Language.unVanish.fakeJoin, Placeholder.unparsed("player", finalTargetName));
                                         }
                                     });
                         } else {
@@ -161,7 +161,7 @@ public final class AxVanishCommand {
                                         if (other.canSee(user) && other.onlinePlayer().hasPermission("axvanish.notify")) {
                                             MessageUtils.sendMessage(other.onlinePlayer(), Language.prefix, Language.vanish.broadcast, Placeholder.unparsed("player", finalTargetName1));
                                         } else if (!other.canSee(user) && Config.fakeLeave.enabled) {
-                                            MessageUtils.sendMessage(other.onlinePlayer(), Config.fakeLeave.message, Placeholder.unparsed("player", finalTargetName1));
+                                            MessageUtils.sendMessage(other.onlinePlayer(), Language.vanish.fakeLeave, Placeholder.unparsed("player", finalTargetName1));
                                         }
                                     });
                         }
