@@ -37,11 +37,11 @@ Groups allow you to define different levels of vanish with specific capabilities
 ### Database (`config.yml`)
 Supports H2, SQLite, and MySQL for storing vanish states across restarts.
 
-### Fake Join/Leave (`config.yml`)
-You can enable/disable and customize fake messages that are sent when a player vanishes or unvanishes:
+### Fake Join/Leave
+You can enable/disable fake messages in `config.yml`, and customize the message text in your language file (e.g., `language/en_US.yml`):
 - `fake-join`: Sent when a player unvanishes (appearing as if they just joined).
 - `fake-leave`: Sent when a player vanishes (appearing as if they just left).
-- Supports MiniMessage color codes (e.g., `<yellow>`, `<red>`, `<gradient:red:blue>`).
+- Supports MiniMessage color codes (e.g., `<yellow>`, `<red>`, `<gradient:red:blue>`) and the `<player>` placeholder.
 
 ## Placeholders
 If PlaceholderAPI is installed, you can use the following placeholders (identifier `axvanish`):
