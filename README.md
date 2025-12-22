@@ -17,6 +17,7 @@ A powerful and flexible vanish plugin designed for Folia and Paper.
 - `axvanish.command.toggle.other`: Permission to toggle vanish for others.
 - `axvanish.command.admin.reload`: Permission to reload the config.
 - `axvanish.command.admin.version`: Permission to see version info.
+- `axvanish.notify`: Permission to receive vanish/unvanish notifications.
 - `axvanish.group.<groupname>`: Assigns a player to a specific vanish group (e.g., `axvanish.group.default`).
 
 ## Features & Configuration
