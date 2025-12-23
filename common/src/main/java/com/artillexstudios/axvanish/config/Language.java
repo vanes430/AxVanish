@@ -50,6 +50,9 @@ public final class Language implements ConfigurationPart {
     @Named("unvanish-no-permission")
     public static String unvanishNoPermission = "<white><player></white> <#FF0000>has no vanish permission, but joined with vanish! We have <white>unvanished</white> them!";
 
+    @Named("vanish-join-notification")
+    public static String vanishJoinNotification = "<#00FF00><player> joined while vanished!";
+
     @Comment("Do not touch!")
     public static int configVersion = 1;
     @Ignored

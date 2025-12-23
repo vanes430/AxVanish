@@ -97,6 +97,15 @@ public final class PlayerListener implements Listener {
 
         if (user.vanished()) {
             event.setJoinMessage(null);
+
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                if (online.hasPermission("axvanish.notify") && !online.getUniqueId().equals(player.getUniqueId())) {
+                    User onlineUser = AxVanishAPI.instance().getUserIfLoadedImmediately(online);
+                    if (onlineUser != null && onlineUser.canSee(user)) {
+                        MessageUtils.sendMessage(online, Language.prefix, Language.vanishJoinNotification, Placeholder.unparsed("player", player.getName()));
+                    }
+                }
+            }
         }
     }
 
