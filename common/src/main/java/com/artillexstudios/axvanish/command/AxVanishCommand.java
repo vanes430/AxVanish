@@ -1,6 +1,9 @@
 package com.artillexstudios.axvanish.command;
 
+import com.artillexstudios.axapi.nms.wrapper.WrapperRegistry;
+import com.artillexstudios.axapi.reflection.ClassUtils;
 import com.artillexstudios.axapi.utils.MessageUtils;
+import com.artillexstudios.axapi.utils.StringUtils;
 import com.artillexstudios.axapi.utils.logging.LogUtils;
 import com.artillexstudios.axvanish.AxVanishPlugin;
 import com.artillexstudios.axvanish.api.AxVanishAPI;
@@ -15,6 +18,8 @@ import com.artillexstudios.axvanish.config.Config;
 import com.artillexstudios.axvanish.config.Groups;
 import com.artillexstudios.axvanish.config.Language;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -78,28 +83,10 @@ public final class AxVanishCommand {
 
                     if (previous) {
                         MessageUtils.sendMessage(player, Language.prefix, Language.unVanish.unVanish);
-                        AxVanishAPI.instance().online()
-                                .stream()
-                                .filter(other -> other != user)
-                                .forEach(other -> {
-                                    if (other.canSee(user) && other.onlinePlayer().hasPermission("axvanish.notify")) {
-                                        MessageUtils.sendMessage(other.onlinePlayer(), Language.prefix, Language.unVanish.broadcast, Placeholder.unparsed("player", player.getName()));
-                                    } else if (!other.canSee(user) && Config.fakeJoin.enabled) {
-                                        MessageUtils.sendMessage(other.onlinePlayer(), Language.unVanish.fakeJoin, Placeholder.unparsed("player", player.getName()));
-                                    }
-                                });
+                        broadcastVanishMessage(user, Language.unVanish.broadcast, Language.unVanish.fakeJoin, Config.fakeJoin);
                     } else {
                         MessageUtils.sendMessage(player, Language.prefix, Language.vanish.vanish);
-                        AxVanishAPI.instance().online()
-                                .stream()
-                                .filter(other -> other != user)
-                                .forEach(other -> {
-                                    if (other.canSee(user) && other.onlinePlayer().hasPermission("axvanish.notify")) {
-                                        MessageUtils.sendMessage(other.onlinePlayer(), Language.prefix, Language.vanish.broadcast, Placeholder.unparsed("player", player.getName()));
-                                    } else if (!other.canSee(user) && Config.fakeLeave.enabled) {
-                                        MessageUtils.sendMessage(other.onlinePlayer(), Language.vanish.fakeLeave, Placeholder.unparsed("player", player.getName()));
-                                    }
-                                });
+                        broadcastVanishMessage(user, Language.vanish.broadcast, Language.vanish.fakeLeave, Config.fakeLeave);
                     }
                 })
         );
@@ -133,37 +120,12 @@ public final class AxVanishCommand {
                             return;
                         }
 
-                        String targetName = user.player() != null ? user.player().getName() : offlinePlayer.getName();
-                        if (targetName == null) {
-                            targetName = "Unknown";
-                        }
-
                         if (previous) {
                             MessageUtils.sendMessage(sender, Language.prefix, Language.unVanish.unVanish);
-                            String finalTargetName = targetName;
-                            AxVanishAPI.instance().online()
-                                    .stream()
-                                    .filter(other -> other != user)
-                                    .forEach(other -> {
-                                        if (other.canSee(user) && other.onlinePlayer().hasPermission("axvanish.notify")) {
-                                            MessageUtils.sendMessage(other.onlinePlayer(), Language.prefix, Language.unVanish.broadcast, Placeholder.unparsed("player", finalTargetName));
-                                        } else if (!other.canSee(user) && Config.fakeJoin.enabled) {
-                                            MessageUtils.sendMessage(other.onlinePlayer(), Language.unVanish.fakeJoin, Placeholder.unparsed("player", finalTargetName));
-                                        }
-                                    });
+                            broadcastVanishMessage(user, Language.unVanish.broadcast, Language.unVanish.fakeJoin, Config.fakeJoin);
                         } else {
                             MessageUtils.sendMessage(sender, Language.prefix, Language.vanish.vanish);
-                            String finalTargetName1 = targetName;
-                            AxVanishAPI.instance().online()
-                                    .stream()
-                                    .filter(other -> other != user)
-                                    .forEach(other -> {
-                                        if (other.canSee(user) && other.onlinePlayer().hasPermission("axvanish.notify")) {
-                                            MessageUtils.sendMessage(other.onlinePlayer(), Language.prefix, Language.vanish.broadcast, Placeholder.unparsed("player", finalTargetName1));
-                                        } else if (!other.canSee(user) && Config.fakeLeave.enabled) {
-                                            MessageUtils.sendMessage(other.onlinePlayer(), Language.vanish.fakeLeave, Placeholder.unparsed("player", finalTargetName1));
-                                        }
-                                    });
+                            broadcastVanishMessage(user, Language.vanish.broadcast, Language.vanish.fakeLeave, Config.fakeLeave);
                         }
                     });
                 })
@@ -224,5 +186,28 @@ public final class AxVanishCommand {
                     }
                 })
         );
+    }
+
+    private void broadcastVanishMessage(User user, String broadcastMessage, String fakeMessage, boolean fakeEnabled) {
+        String name = user.player().getName() != null ? user.player().getName() : "Unknown";
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getUniqueId().equals(user.player().getUniqueId())) {
+                continue;
+            }
+
+            if (player.hasPermission("axvanish.notify")) {
+                MessageUtils.sendMessage(player, Language.prefix, broadcastMessage, Placeholder.unparsed("player", name));
+            }
+
+            if (fakeEnabled) {
+                String message = fakeMessage;
+                if (ClassUtils.INSTANCE.classExists("me.clip.placeholderapi.PlaceholderAPI")) {
+                    message = PlaceholderAPI.setPlaceholders(user.onlinePlayer() == null ? user.player() : user.onlinePlayer(), message);
+                }
+                Component formatted = StringUtils.format(message, Placeholder.unparsed("player", name));
+                WrapperRegistry.SERVER_PLAYER.map(player).message(formatted);
+            }
+        }
     }
 }

@@ -41,6 +41,7 @@ public final class Language implements ConfigurationPart {
 
     @Serializable
     public static class Vanish {
+        @Named("message")
         public String vanish = "<#00FF00>You have successfully vanished!";
         public String broadcast = "<#00FF00><player> has vanished!";
         @Named("fake-leave")
@@ -49,7 +50,7 @@ public final class Language implements ConfigurationPart {
 
     @Serializable
     public static class UnVanish {
-        @Named("unvanish")
+        @Named("message")
         public String unVanish = "<#00FF00>You have successfully unvanished!";
         public String broadcast = "<#00FF00><player> has unvanished!";
         public String hadNoVanishPermission = "<white><player></white> <#FF0000>has no vanish permission, but joined with vanish! We have <white>unvanished</white> them!";

@@ -12,6 +12,7 @@ import com.artillexstudios.axvanish.config.Language;
 import com.artillexstudios.axvanish.database.DataHandler;
 import com.artillexstudios.axvanish.listeners.PlayerListener;
 import com.artillexstudios.axvanish.placeholders.PlaceholderRegistry;
+import com.artillexstudios.axvanish.utils.Permissions;
 import com.artillexstudios.axvanish.utils.VanishStateManagerFactory;
 import org.bukkit.Bukkit;
 import revxrsal.zapper.repository.Repository;
@@ -61,6 +62,7 @@ public final class AxVanishPlugin extends AxPlugin {
 
     @Override
     public void enable() {
+        Permissions.register();
         this.stateManagerFactory = new VanishStateManagerFactory(this);
         this.command = new AxVanishCommand(this);
         this.command.register();

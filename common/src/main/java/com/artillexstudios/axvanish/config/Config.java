@@ -48,22 +48,13 @@ public final class Config implements ConfigurationPart {
         }
     }
 
-    @Serializable
-    public static class FakeJoin {
-        @Comment("Whether to send a fake join message when a player unvanishes")
-        public boolean enabled = true;
-    }
-
-    @Serializable
-    public static class FakeLeave {
-        @Comment("Whether to send a fake leave message when a player vanishes")
-        public boolean enabled = true;
-    }
-
+    @Comment("Whether to send a fake join message when a player unvanishes")
     @Named("fake-join")
-    public static FakeJoin fakeJoin = new FakeJoin();
+    public static boolean fakeJoin = true;
+
+    @Comment("Whether to send a fake leave message when a player vanishes")
     @Named("fake-leave")
-    public static FakeLeave fakeLeave = new FakeLeave();
+    public static boolean fakeLeave = true;
 
     @Comment("""
             How many threads should we use for database queries?

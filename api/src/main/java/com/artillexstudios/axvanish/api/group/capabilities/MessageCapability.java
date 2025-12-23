@@ -49,7 +49,7 @@ public final class MessageCapability extends VanishCapability implements Listene
             return;
         }
 
-        String message = event.newState() ? capability.joinMessage : capability.leaveMessage;
+        String message = event.newState() ? capability.leaveMessage : capability.joinMessage;
         if (message == null || message.isBlank()) {
             return;
         }
@@ -60,6 +60,9 @@ public final class MessageCapability extends VanishCapability implements Listene
 
         Component formatted = StringUtils.format(message);
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getUniqueId().equals(event.user().player().getUniqueId())) {
+                continue;
+            }
             WrapperRegistry.SERVER_PLAYER.map(player).message(formatted);
         }
     }

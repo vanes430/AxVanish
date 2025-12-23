@@ -5,3 +5,26 @@ api-version: "1.18"
 folia-supported: true
 softdepend:
   - PlaceholderAPI
+
+permissions:
+  axvanish.vanish:
+    description: "Allows the player to use the vanish command"
+    default: op
+  axvanish.notify:
+    description: "Allows the player to receive notifications when someone vanishes or unvanishes"
+    default: op
+  axvanish.command.toggle.other:
+    description: "Allows the player to toggle vanish for other players"
+    default: op
+  axvanish.command.admin:
+    description: "Access to the admin subcommands"
+    default: op
+  axvanish.command.admin.version:
+    description: "Access to the version subcommand"
+    default: op
+  axvanish.command.admin.reload:
+    description: "Access to the reload subcommand"
+    default: op
+  axvanish.group.*:
+    description: "Allows assigning a player to a specific vanish group (e.g., axvanish.group.default)"
+    default: false
