@@ -32,5 +32,4 @@ jobs:
         prerelease: false
         title: "Latest Release"
         files: |
-          build/libs/*.jar
-          **/build/libs/*.jar
+          **/build/libs/AxVanish*.jar
